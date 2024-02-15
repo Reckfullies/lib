@@ -241,16 +241,10 @@ in {
       homes ? {},
     }: let
       lib = snowfall-lib.internal.system-lib;
-      home-system-modules = snowfall-lib.home.create-home-system-modules homes;
-      home-manager-module =
-        if is-darwin system
-        then user-inputs.home-manager.darwinModules.home-manager
-        else user-inputs.home-manager.nixosModules.home-manager;
-      home-manager-modules = [home-manager-module] ++ home-system-modules;
     in {
       inherit channelName system builder output;
 
-      modules = [path] ++ modules ++ (optionals (user-inputs ? home-manager) home-manager-modules);
+      modules = [path] ++ modules;
 
       specialArgs =
         specialArgs
