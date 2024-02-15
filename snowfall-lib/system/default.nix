@@ -241,10 +241,11 @@ in {
       homes ? {},
     }: let
       lib = snowfall-lib.internal.system-lib;
+      home-system-modules = snowfall-lib.home.create-home-system-modules homes;
     in {
       inherit channelName system builder output;
 
-      modules = [path] ++ modules;
+      modules = [path] ++ modules ++ (optionals (user-inputs ? home-manager) home-system-modules);
 
       specialArgs =
         specialArgs
